@@ -5,6 +5,7 @@ const StyledCreateProduct = styled.div`
   width: 100%;
   margin-left: 260px;
   padding: 24px 20px;
+  overflow: hidden;
 
   .title {
     width: fit-content;
@@ -168,8 +169,10 @@ const StyledCreateProduct = styled.div`
 
   .preview-container {
     width: 100%;
+    height: 90vh;
     max-width: 640px;
     padding: 0 48px;
+    overflow-y: auto;
   }
 `;
 

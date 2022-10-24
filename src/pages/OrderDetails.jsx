@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import OrderDetailItem from "@components/OrderDetailItem";
 import StyledOrderDetails from "@styles/styledOrderDetails";
 import useGetOrders from "@hooks/useGetOrders";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Edit from "@components/svg-components/Edit";
 
 const API = "https://nappshop-backend.herokuapp.com/api/v1/orders/";
 
@@ -13,7 +15,46 @@ const OrderDetails = () => {
 
   const { orders, loading, error } = useGetOrders(`${API}${id}`);
 
-  console.log(orders);
+  const [pmtToggle, setPmtToggle] = useState(false);
+  const [shipToggle, setShipToggle] = useState(false);
+
+  const handleEdit = () => {
+    const paymentStatus =
+      document.getElementById("payment_status") === null
+        ? orders.payment_status
+        : document.getElementById("payment_status").value;
+    const orderStatus =
+      document.getElementById("order_status") === null
+        ? orders.order_status
+        : document.getElementById("order_status").value;
+
+    console.log(orders.payment_status);
+    console.log(orders.order_status);
+
+    setPmtToggle(!pmtToggle);
+    setShipToggle(!shipToggle);
+
+    axios
+      .put(`${API}${id}`, {
+        payment_status: paymentStatus,
+        order_status: orderStatus,
+      })
+      .then((res) => {
+        console.log(res);
+
+        if (res.status === 200) {
+          alert("Order updated successfully");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (err.response.status === 400) {
+          alert("Error updating order");
+        }
+      });
+  };
 
   return (
     <StyledOrderDetails>
@@ -214,7 +255,17 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className="second-row-middle">
-            <h2>Payment information</h2>
+            <div className="payment-info-header">
+              <h2>Payment information</h2>
+              <button
+                className="edit-btn"
+                onClick={() => {
+                  setPmtToggle(!pmtToggle);
+                }}
+              >
+                <Edit />
+              </button>
+            </div>
             <div className="payment-info">
               <p>
                 Payment Method:{" "}
@@ -228,26 +279,82 @@ const OrderDetails = () => {
                 Payment status:{" "}
                 {loading ? (
                   <Skeleton width={100} />
+                ) : pmtToggle ? (
+                  <select
+                    name="payment_status"
+                    id="payment_status"
+                    defaultValue={orders.payment_status}
+                  >
+                    <option value="paid">Paid</option>
+                    <option value="pending">Pending</option>
+                  </select>
                 ) : (
-                  orders.payment_status && orders.payment_status
+                  // show payment status in title case
+                  orders.payment_status &&
+                  orders.payment_status.charAt(0).toUpperCase() +
+                    orders.payment_status.slice(1)
                 )}
               </p>
             </div>
           </div>
           <div className="second-row-right">
-            <h2>Delivery Info</h2>
+            <div className="delivery-info-header">
+              <h2>Delivery information</h2>
+              <button
+                className="edit-btn"
+                onClick={() => {
+                  setShipToggle(!shipToggle);
+                }}
+              >
+                <Edit />
+              </button>
+            </div>
             <div className="delivery-info">
               <p className="delivery-name">Delivery RedServi</p>
               <p>
                 Delivery status:{" "}
                 {loading ? (
                   <Skeleton width={100} />
+                ) : shipToggle ? (
+                  <select
+                    name="order_status"
+                    id="order_status"
+                    defaultValue={orders.order_status}
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
                 ) : (
-                  orders.order_status && orders.order_status
+                  // show order status in title case
+                  orders.order_status &&
+                  orders.order_status.charAt(0).toUpperCase() +
+                    orders.order_status.slice(1)
                 )}
               </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="third-row">
+        <div className="button-container">
+          <button
+            className="cancel-btn"
+            onClick={() => (window.location.href = "/orders")}
+          >
+            Cancel
+          </button>
+          <button
+            className="save-btn"
+            onClick={() => {
+              handleEdit();
+            }}
+            disabled={pmtToggle || shipToggle ? false : true}
+          >
+            Save
+          </button>
         </div>
       </div>
     </StyledOrderDetails>

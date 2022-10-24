@@ -8,13 +8,16 @@ const StyledProductsContainer = styled.div`
   box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
   background: #fff;
 
-  .create-product {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
   }
 
   .create-product button {
     width: 148px;
-    height: 48px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,6 +31,33 @@ const StyledProductsContainer = styled.div`
     &:hover {
       background: rgb(66, 90, 205);
     }
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .search input {
+    padding: 8px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 0.875rem;
+    color: #495057;
+    outline: none;
+  }
+
+  .search button {
+    padding: 8px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 0.875rem;
+    color: #495057;
+    outline: none;
+    cursor: pointer;
   }
 
   .table {

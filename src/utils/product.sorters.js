@@ -139,12 +139,12 @@ const sortProductsByPrice = (products, sort) => {
   }
 };
 
-export {
-  sortProductsByName,
-  sortProductsByBrand,
-  sortProductsByCategory,
-  sortProductsByType,
-  sortProductsByDate,
-  sortProductsByStock,
-  sortProductsByPrice,
-};
+  export {
+    sortProductsByName,
+    sortProductsByBrand,
+    sortProductsByCategory,
+    sortProductsByType,
+    sortProductsByDate,
+    sortProductsByStock,
+    sortProductsByPrice,
+  };

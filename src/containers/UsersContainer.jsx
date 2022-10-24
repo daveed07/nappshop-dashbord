@@ -2,55 +2,51 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import StyledOrdersContainer from "@styles/styledOrdersContainer";
-import OrderItem from "@components/OrderItem";
+import StyledUsersContainer from "@styles/styledUsersContainer";
+import UserItem from "@components/UserItem";
 import LeftArrow from "@components/svg-components/LeftArrow";
 import RightArrow from "@components/svg-components/RightArrow";
 import SortUp from "@components/svg-components/SortUp";
 import SortDown from "@components/svg-components/SortDown";
 import {
-  sortOrdersById,
-  sortOrdersByName,
-  sortOrdersByDate,
-  sortOrdersByTotal,
-  sortOrdersByStatus,
-  sortOrdersByPaymentMethod,
-  sortOrdersByPaymentStatus,
-} from "@utils/order.sorters";
+  sortUsersById,
+  sortUsersByUserName,
+  sortUsersByFullName,
+  sortUsersByEmail,
+  sortUsersByPhone,
+  sortUsersByRole,
+} from "@utils/user.sorters";
 
-const API = "https://nappshop-backend.herokuapp.com/api/v1/orders";
+const API = "https://nappshop-backend.herokuapp.com/api/v1/users";
 
-const OrdersContainer = ({ orders, loading, error }) => {
+const UsersContainer = ({ users, loading, error }) => {
   const [sortId, setSortId] = useState("asc");
-  const [sortName, setSortName] = useState("asc");
-  const [sortDate, setSortDate] = useState("asc");
-  const [sortTotal, setSortTotal] = useState("asc");
-  const [sortStatus, setSortStatus] = useState("asc");
-  const [sortPaymentMethod, setSortPaymentMethod] = useState("asc");
-  const [sortPaymentStatus, setSortPaymentStatus] = useState("asc");
+  const [sortUserName, setSortUserName] = useState("asc");
+  const [sortFullName, setSortFullName] = useState("asc");
+  const [sortEmail, setSortEmail] = useState("asc");
+  const [sortPhone, setSortPhone] = useState("asc");
+  const [sortRole, setSortRole] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage] = useState(8);
-  const [searchOrders, setSearchOrders] = useState(orders);
+  const [usersPerPage] = useState(8);
+  const [searchUsers, setSearchUsers] = useState(users);
 
   useEffect(() => {
-    setSearchOrders(orders);
-  }, [orders]);
+    setSearchUsers(users);
+  }, [users]);
 
-  orders = sortOrdersByDate(orders, "desc");
-
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = searchOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = searchUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // create function called handleDelete that deletes all selected orders from the database
+  // create function called handleDelete that deletes all selected users from the database
   const handleDelete = () => {
-    const selectedOrders = document.querySelectorAll(".check input:checked");
-    selectedOrders.forEach((order) => {
+    const selectedUsers = document.querySelectorAll(".check input:checked");
+    selectedUsers.forEach((user) => {
       axios
-        .delete(`${API}/${order.id}`)
+        .delete(`https://nappshop.herokuapp.com/api/users/${user.id}`)
         .then((response) => {
           return response;
         })
@@ -59,24 +55,26 @@ const OrdersContainer = ({ orders, loading, error }) => {
         });
     });
 
-    alert("Orders deleted successfully");
+    alert("Users deleted successfully");
     window.location.reload();
   };
 
-  const handleSearchOrder = () => {
-    // search for orders that match the search query and update the searchOrders state
+  const handleSearchUser = () => {
+    // search for users that match the search query and update the searchUsers state
     const searchQuery = document.querySelector(".search input").value;
-    const searchResults = orders.filter((order) => {
+    const searchResults = users.filter((user) => {
       return (
-        order.order_id === Number(searchQuery) ||
-        order.contact.name.toLowerCase().includes(searchQuery.toLowerCase())
+        user.user_id === Number(searchQuery) ||
+        user.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.user_full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.user_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.user_phone.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
-    setSearchOrders(searchResults);
+    setSearchUsers(searchResults);
   };
-
   return (
-    <StyledOrdersContainer>
+    <StyledUsersContainer>
       {error && <p>{error.message}</p>}
       <div className="header">
         <div className="bulk-actions">
@@ -97,12 +95,10 @@ const OrdersContainer = ({ orders, loading, error }) => {
           </button>
         </div>
         <div className="search">
-          <input type="text" id="search" placeholder="Search orders" />
+          <input type="text" placeholder="Search" />
           <button
-            type="button"
-            id="search-button"
             onClick={() => {
-              handleSearchOrder();
+              handleSearchUser();
             }}
           >
             Search
@@ -125,161 +121,138 @@ const OrdersContainer = ({ orders, loading, error }) => {
                 }}
               />
             </th>
-            <th className="order-id">
+            <th className="user-id">
               <div className="header-wrapper">
-                <p>Order ID</p>
+                <p>User ID</p>
                 <div className="sort">
                   {sortId === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersById(orders, sortId);
                         setSortId("desc");
+                        sortUsersById(users, "desc");
                       }}
                     />
                   )}
                   {sortId === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersById(orders, sortId);
                         setSortId("asc");
+                        sortUsersById(users, "asc");
                       }}
                     />
                   )}
                 </div>
               </div>
             </th>
-            <th className="customer">
+            <th className="user-name">
               <div className="header-wrapper">
-                <p>Customer</p>
+                <p>Username</p>
                 <div className="sort">
-                  {sortName === "asc" && (
+                  {sortUserName === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersByName(orders, sortName);
-                        setSortName("desc");
+                        setSortUserName("desc");
+                        sortUsersByUserName(users, "desc");
                       }}
                     />
                   )}
-                  {sortName === "desc" && (
+                  {sortUserName === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersByName(orders, sortName);
-                        setSortName("asc");
+                        setSortUserName("asc");
+                        sortUsersByUserName(users, "asc");
                       }}
                     />
                   )}
                 </div>
               </div>
             </th>
-            <th className="date">
+            <th className="user-full-name">
               <div className="header-wrapper">
-                <p>Date</p>
+                <p>Full Name</p>
                 <div className="sort">
-                  {sortDate === "asc" && (
+                  {sortFullName === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersByDate(orders, sortDate);
-                        setSortDate("desc");
+                        setSortFullName("desc");
+                        sortUsersByFullName(users, "desc");
                       }}
                     />
                   )}
-                  {sortDate === "desc" && (
+                  {sortFullName === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersByDate(orders, sortDate);
-                        setSortDate("asc");
+                        setSortFullName("asc");
+                        sortUsersByFullName(users, "asc");
                       }}
                     />
                   )}
                 </div>
               </div>
             </th>
-            <th className="payment-status">
+            <th className="email">
               <div className="header-wrapper">
-                <p>Payment Status</p>
+                <p>Email</p>
                 <div className="sort">
-                  {sortPaymentStatus === "asc" && (
+                  {sortEmail === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersByPaymentStatus(orders, sortPaymentStatus);
-                        setSortPaymentStatus("desc");
+                        setSortEmail("desc");
+                        sortUsersByEmail(users, "desc");
                       }}
                     />
                   )}
-                  {sortPaymentStatus === "desc" && (
+                  {sortEmail === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersByPaymentStatus(orders, sortPaymentStatus);
-                        setSortPaymentStatus("asc");
+                        setSortEmail("asc");
+                        sortUsersByEmail(users, "asc");
                       }}
                     />
                   )}
                 </div>
               </div>
             </th>
-            <th className="total">
+            <th className="user-phone">
               <div className="header-wrapper">
-                <p>Total</p>
+                <p>Phone</p>
                 <div className="sort">
-                  {sortTotal === "asc" && (
+                  {sortPhone === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersByTotal(orders, sortTotal);
-                        setSortTotal("desc");
+                        setSortPhone("desc");
+                        sortUsersByPhone(users, "desc");
                       }}
                     />
                   )}
-                  {sortTotal === "desc" && (
+                  {sortPhone === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersByTotal(orders, sortTotal);
-                        setSortTotal("asc");
+                        setSortPhone("asc");
+                        sortUsersByPhone(users, "asc");
                       }}
                     />
                   )}
                 </div>
               </div>
             </th>
-            <th className="payment-method">
+            <th className="role">
               <div className="header-wrapper">
-                <p>Payment Method</p>
+                <p>Role</p>
                 <div className="sort">
-                  {sortPaymentMethod === "asc" && (
+                  {sortRole === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortOrdersByPaymentMethod(orders, sortPaymentMethod);
-                        setSortPaymentMethod("desc");
+                        setSortRole("desc");
+                        sortUsersByRole(users, "desc");
                       }}
                     />
                   )}
-                  {sortPaymentMethod === "desc" && (
+                  {sortRole === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortOrdersByPaymentMethod(orders, sortPaymentMethod);
-                        setSortPaymentMethod("asc");
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
-            </th>
-            <th className="order-status">
-              <div className="header-wrapper">
-                <p>Order Status</p>
-                <div className="sort">
-                  {sortStatus === "asc" && (
-                    <SortUp
-                      onClick={() => {
-                        sortOrdersByStatus(orders, sortStatus);
-                        setSortStatus("desc");
-                      }}
-                    />
-                  )}
-                  {sortStatus === "desc" && (
-                    <SortDown
-                      onClick={() => {
-                        sortOrdersByStatus(orders, sortStatus);
-                        setSortStatus("asc");
+                        setSortRole("asc");
+                        sortUsersByRole(users, "asc");
                       }}
                     />
                   )}
@@ -297,15 +270,15 @@ const OrdersContainer = ({ orders, loading, error }) => {
           {loading
             ? [...Array(5)].map((index) => (
                 <tr key={index}>
-                  {[...Array(9)].map((i) => (
-                    <td key={i} style={{ padding: "20px" }}>
+                  {[...Array(7)].map((i) => (
+                    <td key={i} style={{ width: "20px" }}>
                       <Skeleton width="100%" />
                     </td>
                   ))}
                 </tr>
               ))
-            : currentOrders.map((order) => (
-                <OrderItem key={order.id} order={order} loading={loading} />
+            : currentUsers.map((user) => (
+                <UserItem key={user.user_id} user={user} loading={loading} />
               ))}
         </tbody>
       </table>
@@ -315,30 +288,42 @@ const OrdersContainer = ({ orders, loading, error }) => {
             <Skeleton width={100} />
           ) : (
             <p>
-              Showing orders {indexOfFirstOrder + 1} to {indexOfLastOrder} of{" "}
-              {searchOrders.length}
+              Showing {indexOfFirstUser + 1} to {indexOfLastUser} of{" "}
+              {searchUsers.length}
             </p>
           )}
         </div>
         <div className="pagination-buttons">
           <button
+            type="button"
             className="prev"
-            onClick={() => paginate(currentPage - 1)}
+            onClick={() => {
+              if (currentPage > 1) {
+                paginate(currentPage - 1);
+              }
+            }}
             disabled={currentPage === 1}
           >
             <LeftArrow />
           </button>
           <button
+            type="button"
             className="next"
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastOrder >= searchOrders.length}
+            onClick={() => {
+              if (currentPage < Math.ceil(searchUsers.length / usersPerPage)) {
+                paginate(currentPage + 1);
+              }
+            }}
+            disabled={
+              currentPage === Math.ceil(searchUsers.length / usersPerPage)
+            }
           >
             <RightArrow />
           </button>
         </div>
       </div>
-    </StyledOrdersContainer>
+    </StyledUsersContainer>
   );
 };
 
-export default OrdersContainer;
+export default UsersContainer;

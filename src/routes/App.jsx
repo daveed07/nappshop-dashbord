@@ -4,6 +4,7 @@ import SideBar from "@components/micro-components/SideBar";
 import Home from "@pages/Home";
 import Products from "@pages/Products";
 import Orders from "@pages/Orders";
+import Users from "@pages/Users";
 import CreateProduct from "@pages/CreateProduct";
 import EditProduct from "@pages/EditProduct";
 import OrderDetails from "@pages/OrderDetails";
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/customers" element={<Users />} />
           <Route path="create-product" element={<CreateProduct />} />
           <Route path="edit-product/:id" element={<EditProduct />} />
           <Route path="orders/:id" element={<OrderDetails />} />

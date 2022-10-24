@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import colors from "@constants/colors";
 
 const StyledOrderDetails = styled.div`
   width: 100%;
@@ -83,7 +84,8 @@ const StyledOrderDetails = styled.div`
     width: 140px;
   }
 
-  .price, .total {
+  .price,
+  .total {
     width: 103px;
   }
 
@@ -106,9 +108,43 @@ const StyledOrderDetails = styled.div`
     color: #6c757d;
   }
 
+  .payment-info-header,
+  .delivery-info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .payment-info-header h2,
+  .delivery-info-header h2 {
+    margin-bottom: 0;
+  }
+
+  .payment-info-header .edit-btn,
+  .delivery-info-header .edit-btn {
+    padding: 8px;
+    border: 1px solid #6c757d;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 14.5px;
+    color: #6c757d;
+    cursor: pointer;
+  }
+
   .payment-info {
     width: 100%;
     line-height: 24px;
+    font-size: 14.5px;
+    color: #6c757d;
+  }
+
+  .payment-info select, .delivery-info select {
+    width: 120px;
+    padding: 4px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background: #fff;
     font-size: 14.5px;
     color: #6c757d;
   }
@@ -122,6 +158,70 @@ const StyledOrderDetails = styled.div`
 
   .delivery-name {
     font-weight: 600;
+  }
+
+  .third-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 60px;
+  }
+
+  .third-row .button-container {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  .third-row .button-container button {
+    width: 100%;
+    max-width: 80px;
+    padding: 12px;
+    border: 1px solid #6c757d;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 14.5px;
+    color: #6c757d;
+    cursor: pointer;
+  }
+
+  .third-row .button-container button:disabled {
+    background: #fff;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+
+    &:hover {
+      background: #fff;
+      border: 1px solid #6c757d;
+      color: #6c757d;
+    }
+  }
+
+  .third-row .button-container button:hover {
+    background: #6c757d;
+    color: #fff;
+  }
+
+  .third-row .button-container .cancel-btn {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+  }
+
+  .third-row .button-container .cancel-btn:hover {
+    background: #dc3545;
+    color: #fff;
+  }
+
+  .third-row .button-container .save-btn {
+    border: 1px solid #28a745;
+    color: #28a745;
+  }
+
+  .third-row .button-container .save-btn:hover {
+    background: #28a745;
+    color: #fff;
   }
 `;
 

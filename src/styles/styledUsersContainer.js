@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledOrdersContainer = styled.div`
+const StyledUsersContainer = styled.div`
   width: 100%;
   padding: 24px;
   border: 1px solid #dee2e6;
@@ -88,44 +88,40 @@ const StyledOrdersContainer = styled.div`
     padding: 0.95rem 0.95rem;
   }
 
-  .order-id {
+  .user-id {
     width: 10%;
   }
 
-  .customer {
-    width: 16.4%;
+  .user-name {
+    width: 20%;
   }
 
-  .order-date {
-    width: 16.4%;
+  .user-full-name {
+    width: 20%;
   }
 
-  .payment-status {
-    width: 16.4%;
+  .user-email {
+    width: 20%;
   }
 
-  .order-total {
-    width: 16.4%;
+  .user-phone {
+    width: 15%;
   }
 
-  .payment-method {
-    width: 16.4%;
-  }
-
-  .order-status {
-    width: 16.4%;
+  .role {
+    width: 10%;
   }
 
   .actions {
-    width: 17%;
+    width: 10%;
   }
-  
+
   .header-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
+  
   .table .sort {
     width: 16px;
     height: 16px;
@@ -164,4 +160,4 @@ const StyledOrdersContainer = styled.div`
   }
 `;
 
-export default StyledOrdersContainer;
+export default StyledUsersContainer;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductItem from "@components/ProductItem";
 import StyledProductsContainer from "@styles/styledProductsContainer";
@@ -20,13 +20,24 @@ import {
 } from "@utils/product.sorters";
 
 const ProductsContainer = ({ products, loading, error }) => {
-  const [sort, setSort] = useState("asc");
+  const [sortName, setSortName] = useState("asc");
+  const [sortBrand, setSortBrand] = useState("asc");
+  const [sortCategory, setSortCategory] = useState("asc");
+  const [sortType, setSortType] = useState("asc");
+  const [sortDate, setSortDate] = useState("asc");
+  const [sortStock, setSortStock] = useState("asc");
+  const [sortPrice, setSortPrice] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
+  const [searchProducts, setSearchProducts] = useState(products);
+
+  useEffect(() => {
+    setSearchProducts(products);
+  }, [products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = searchProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -34,16 +45,42 @@ const ProductsContainer = ({ products, loading, error }) => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleSearchProduct = () => {
+    // search for products that match the search query and update the searchProducts state
+    const searchQuery = document.querySelector(".search input").value;
+    const searchResults = products.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.type.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+    setSearchProducts(searchResults);
+  };
+
   return (
     <StyledProductsContainer>
       {error && <p>{error.message}</p>}
-      <div className="create-product">
-        <Link to="/create-product">
-          <button>
-            <Add />
-            <span>Create Product</span>
+      <div className="header">
+        <div className="create-product">
+          <Link to="/create-product">
+            <button>
+              <Add />
+              <span>Create Product</span>
+            </button>
+          </Link>
+        </div>
+        <div className="search">
+          <input type="text" id="search" placeholder="Search products" />
+          <button
+            type="button"
+            id="search-button"
+            onClick={handleSearchProduct}
+          >
+            Search
           </button>
-        </Link>
+        </div>
       </div>
       <table className="table">
         <thead>
@@ -52,19 +89,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Product</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortName === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByName(products, sort);
-                        setSort("desc");
+                        sortProductsByName(products, sortName);
+                        setSortName("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortName === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByName(products, sort);
-                        setSort("asc");
+                        sortProductsByName(products, sortName);
+                        setSortName("asc");
                       }}
                     />
                   )}
@@ -75,19 +112,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Brand</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortBrand === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByBrand(products, sort);
-                        setSort("desc");
+                        sortProductsByBrand(products, sortBrand);
+                        setSortBrand("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortBrand === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByBrand(products, sort);
-                        setSort("asc");
+                        sortProductsByBrand(products, sortBrand);
+                        setSortBrand("asc");
                       }}
                     />
                   )}
@@ -98,19 +135,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Category</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortCategory === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByCategory(products, sort);
-                        setSort("desc");
+                        sortProductsByCategory(products, sortCategory);
+                        setSortCategory("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortCategory === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByCategory(products, sort);
-                        setSort("asc");
+                        sortProductsByCategory(products, sortCategory);
+                        setSortCategory("asc");
                       }}
                     />
                   )}
@@ -121,19 +158,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Type</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortType === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByType(products, sort);
-                        setSort("desc");
+                        sortProductsByType(products, sortType);
+                        setSortType("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortType === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByType(products, sort);
-                        setSort("asc");
+                        sortProductsByType(products, sortType);
+                        setSortType("asc");
                       }}
                     />
                   )}
@@ -144,19 +181,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Added Date</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortDate === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByDate(products, sort);
-                        setSort("desc");
+                        sortProductsByDate(products, sortDate);
+                        setSortDate("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortDate === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByDate(products, sort);
-                        setSort("asc");
+                        sortProductsByDate(products, sortDate);
+                        setSortDate("asc");
                       }}
                     />
                   )}
@@ -167,19 +204,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Price</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortPrice === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByPrice(products, sort);
-                        setSort("desc");
+                        sortProductsByPrice(products, sortPrice);
+                        setSortPrice("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortPrice === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByPrice(products, sort);
-                        setSort("asc");
+                        sortProductsByPrice(products, sortPrice);
+                        setSortPrice("asc");
                       }}
                     />
                   )}
@@ -190,19 +227,19 @@ const ProductsContainer = ({ products, loading, error }) => {
               <div className="header-wrapper">
                 <p>Stock</p>
                 <div className="sort">
-                  {sort === "asc" && (
+                  {sortStock === "asc" && (
                     <SortUp
                       onClick={() => {
-                        sortProductsByStock(products, sort);
-                        setSort("desc");
+                        sortProductsByStock(products, sortStock);
+                        setSortStock("desc");
                       }}
                     />
                   )}
-                  {sort === "desc" && (
+                  {sortStock === "desc" && (
                     <SortDown
                       onClick={() => {
-                        sortProductsByStock(products, sort);
-                        setSort("asc");
+                        sortProductsByStock(products, sortStock);
+                        setSortStock("asc");
                       }}
                     />
                   )}
@@ -220,7 +257,7 @@ const ProductsContainer = ({ products, loading, error }) => {
           {loading
             ? [...Array(5)].map((index) => (
                 <tr key={index}>
-                  {[...Array(7)].map((i) => (
+                  {[...Array(8)].map((i) => (
                     <td key={i} style={{ padding: "20px" }}>
                       <Skeleton width="100%" />
                     </td>
@@ -241,7 +278,10 @@ const ProductsContainer = ({ products, loading, error }) => {
           {loading ? (
             <Skeleton width={100} />
           ) : (
-            <p>Showing products {indexOfFirstProduct + 1} to {indexOfLastProduct} of {products.length}</p>
+            <p>
+              Showing products {indexOfFirstProduct + 1} to {indexOfLastProduct}{" "}
+              of {products.length}
+            </p>
           )}
         </div>
         <div className="pagination-buttons">
