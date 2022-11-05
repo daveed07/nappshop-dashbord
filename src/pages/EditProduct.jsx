@@ -44,7 +44,6 @@ const EditProduct = () => {
       images: prod.images,
     };
 
-    console.log(newProduct);
     if (
       newProduct.name &&
       newProduct.description &&
@@ -55,7 +54,7 @@ const EditProduct = () => {
       newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock &&
+      newProduct.stock !== null &&
       newProduct.images.length > 0
     ) {
       try {
@@ -66,6 +65,12 @@ const EditProduct = () => {
       }
     } else {
       alert("Please fill all the fields");
+      // print fields that are empty in the console
+      for (const [key, value] of Object.entries(newProduct)) {
+        if (!value) {
+          console.log(key);
+        }
+      }
     }
   };
 
