@@ -41,6 +41,7 @@ const EditProduct = () => {
       sku: prod.sku,
       barcode: prod.barcode,
       stock: parseInt(prod.stock),
+      images: prod.images,
     };
 
     console.log(newProduct);
@@ -54,10 +55,11 @@ const EditProduct = () => {
       newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock
+      newProduct.stock &&
+      newProduct.images.length > 0
     ) {
       try {
-        const response = await axios.put(`${API}/${id}`, newProduct);
+        const response = await axios.put(`${API}${id}`, newProduct);
         alert("Product updated successfully");
       } catch (error) {
         console.log(error);

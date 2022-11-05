@@ -34,9 +34,14 @@ const OrdersContainer = ({ orders, loading, error }) => {
 
   useEffect(() => {
     setSearchOrders(orders);
-  }, [orders]);
 
-  orders = sortOrdersByDate(orders, "desc");
+    if (sortId === "desc") {
+      sortOrdersById(orders, "asc");
+    }
+    if (sortId === "asc") {
+      sortOrdersById(orders, "desc");
+    }
+  }, [orders]);
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;

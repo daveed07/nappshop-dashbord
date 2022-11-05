@@ -54,8 +54,7 @@ const UserItem = ({ user, loading }) => {
         ) : (
           <p>
             {
-              // format phone number, add dash between 4th and 5th digit
-              user.user_phone.slice(0, 4) + "-" + user.user_phone.slice(4)
+              user.user_phone ? user.user_phone.slice(0, 4) + "-" + user.user_phone.slice(4) : ""
             }
           </p>
         )}
