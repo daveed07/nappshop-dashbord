@@ -41,7 +41,14 @@ const ProductItem = ({ product, loading }) => {
           {!loadImage ? (
             <Skeleton width={48} height={48} />
           ) : (
-            <img src={product.images[0]} alt={product.name} />
+            <img
+              src={
+                product.images[
+                  product.images.findIndex((item) => item.includes("1.jpg"))
+                ]
+              }
+              alt={product.name}
+            />
           )}
         </div>
         <div className="product-name">
