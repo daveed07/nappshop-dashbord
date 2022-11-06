@@ -54,8 +54,7 @@ const EditProduct = () => {
       newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock !== null &&
-      newProduct.images.length > 0
+      newProduct.stock !== null
     ) {
       try {
         const response = await axios.put(`${API}${id}`, newProduct);
