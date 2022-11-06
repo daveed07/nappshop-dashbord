@@ -8,6 +8,7 @@ const CreateProductContent = ({
   product,
   setProduct,
   submitProduct,
+  productType,
 }) => {
   useEffect(() => {
     const categoryOptions = document.getElementById("category").options;
@@ -27,8 +28,6 @@ const CreateProductContent = ({
       }
     }
   }, [product]);
-
-  console.log(product);
 
   return (
     <div className="form-container">
@@ -77,8 +76,9 @@ const CreateProductContent = ({
               onChange={(e) => setProduct({ ...product, type: e.target.value })}
             />
             <datalist id="types">
-              <option value="Robot Vacuum" />
-              <option value="Robot Mop" />
+              {productType.map((type) => (
+                <option key={type} value={type} />
+              ))}
             </datalist>
           </div>
           <div className="form-group">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import useGetProducts from "@hooks/useGetProducts";
 import CreateProductContent from "@containers/CreateProductContent";
 import PreviewProduct from "@containers/PreviewProduct";
 import StyledCreateProduct from "@styles/styledCreateProduct";
@@ -8,6 +9,7 @@ const API = "https://nappshop-backend.herokuapp.com/api/v1/products";
 
 const CreateProduct = () => {
   const [input, setInput] = useState("");
+  const { products, loading, error } = useGetProducts(`${API}`);
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -21,6 +23,14 @@ const CreateProduct = () => {
     sku: "",
     barcode: "",
     images: [],
+  });
+
+  // create productType array and push all types into it from products array
+  const productType = [];
+  products.map((product) => {
+    if (!productType.includes(product.type)) {
+      productType.push(product.type);
+    }
   });
 
   const submitProduct = async (e) => {
@@ -47,8 +57,7 @@ const CreateProduct = () => {
       newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock &&
-      newProduct.images.length > 0
+      newProduct.stock !== null
     ) {
       try {
         const response = await axios.post(API, newProduct);
@@ -84,6 +93,7 @@ const CreateProduct = () => {
           input={input}
           setInput={setInput}
           submitProduct={submitProduct}
+          productType={productType}
         />
         <div className="preview-container">
           <PreviewProduct product={product} setProduct={setProduct} />

@@ -11,6 +11,7 @@ const API = "https://nappshop-backend.herokuapp.com/api/v1/products/";
 const EditProduct = () => {
   const { id } = useParams();
   const { products, loading, error } = useGetProducts(`${API}${id}`);
+const { products: allProducts } = useGetProducts(`${API}`);
   const [prod, setProd] = useState({
     name: "",
     description: "",
@@ -21,6 +22,13 @@ const EditProduct = () => {
     stock: "",
   });
   const [input, setInput] = useState("");
+
+  const productType = [];
+  allProducts.map((product) => {
+    if (!productType.includes(product.type)) {
+      productType.push(product.type);
+    }
+  });
 
   useEffect(() => {
     // check if products object is not empty
@@ -54,7 +62,8 @@ const EditProduct = () => {
       newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock !== null
+      newProduct.stock !== null &&
+      newProduct.images.length > 0
     ) {
       try {
         const response = await axios.put(`${API}${id}`, newProduct);
@@ -83,6 +92,7 @@ const EditProduct = () => {
           input={input}
           setInput={setInput}
           submitProduct={submitProduct}
+          productType={productType}
         />
         <div className="preview-container">
           <PreviewProduct
