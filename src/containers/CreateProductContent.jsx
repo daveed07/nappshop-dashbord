@@ -62,8 +62,8 @@ const CreateProductContent = ({
               onChange={(e) => setProduct({ ...product, category: e.target.value })}
             >
               <option value={null}>Select Category</option>
-              <option value="1">Accessories</option>
-              <option value="2">Products</option>
+              <option value="1">Accesorios</option>
+              <option value="2">Productos</option>
             </select>
           </div>
           <div className="form-group">
