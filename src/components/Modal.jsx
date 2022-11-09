@@ -17,7 +17,7 @@ const Modal = ({ title, message, setShowModal, handleDelete }) => {
                 setShowModal(false);
               }}
             >
-              Cancel
+              Cancelar
             </button>
             <button
               className="delete"
@@ -26,7 +26,7 @@ const Modal = ({ title, message, setShowModal, handleDelete }) => {
                 setShowModal(false);
               }}
             >
-              Delete
+              Eliminar
             </button>
           </div>
         </div>

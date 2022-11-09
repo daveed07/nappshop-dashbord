@@ -127,8 +127,8 @@ const OrderItem = ({ order, loading }) => {
       </td>
       {showModal && (
         <Modal
-          title="Delete Order"
-          message="Are you sure you want to delete this order?"
+          title="Eliminar orden"
+          message="¿Estas seguro que deseas eliminar esta orden?"
           handleDelete={handleDelete}
           setShowModal={setShowModal}
         />

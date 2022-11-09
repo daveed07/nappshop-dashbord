@@ -64,6 +64,12 @@ const ProductItem = ({ product, loading }) => {
       <td className="type">
         {loading ? <Skeleton width={100} /> : <p>{product.type}</p>}
       </td>
+      <td className="sku">
+        {loading ? <Skeleton width={100} /> : <p>{product.sku}</p>}
+      </td>
+      <td className="barcode">
+        {loading ? <Skeleton width={100} /> : <p>{product.barcode}</p>}
+      </td>
       <td className="added-date">
         {loading ? (
           <Skeleton width={100} />
@@ -94,10 +100,7 @@ const ProductItem = ({ product, loading }) => {
           <Skeleton width={100} />
         ) : (
           <p>
-            {
-              // format stock number with commas
-              product.stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
+            {product.stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </p>
         )}
       </td>
@@ -124,8 +127,8 @@ const ProductItem = ({ product, loading }) => {
       </td>
       {showModal && (
         <Modal
-          title="Delete Product"
-          message="Are you sure you want to delete this product?"
+          title="Eliminar producto"
+          message="¿Estás seguro que deseas eliminar este producto?"
           setShowModal={setShowModal}
           handleDelete={handleDelete}
         />

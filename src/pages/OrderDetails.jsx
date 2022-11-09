@@ -58,18 +58,20 @@ const OrderDetails = () => {
 
   return (
     <StyledOrderDetails>
-      <h1 className="title">Order Details</h1>
+      <h1 className="title">
+        Detalles de la orden <span>#{id}</span>
+      </h1>
       <div className="main-container">
         <div className="first-row">
           <div className="first-row-left">
-            <h2>Items from order</h2>
+            <h2>Artículos de la orden</h2>
             <div className="items">
               <table className="items-table">
                 <thead>
                   <tr>
-                    <th className="item">Item</th>
-                    <th className="quantity">Quantity</th>
-                    <th className="price">Price</th>
+                    <th className="item">Artículo</th>
+                    <th className="quantity">Cantidad</th>
+                    <th className="price">Precio</th>
                     <th className="total">Total</th>
                   </tr>
                 </thead>
@@ -135,13 +137,13 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className="first-row-right">
-            <h2>Order Summary</h2>
+            <h2>Resumen de la orden</h2>
             <div className="order-summary">
               <table className="summary-table">
                 <thead>
                   <tr>
-                    <th className="description">Description</th>
-                    <th className="price">Price</th>
+                    <th className="description">Descripción</th>
+                    <th className="price">Precio</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -160,7 +162,7 @@ const OrderDetails = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td className="description">Shipping</td>
+                    <td className="description">Envío</td>
                     <td className="price">
                       {loading ? (
                         <Skeleton width={100} />
@@ -175,7 +177,7 @@ const OrderDetails = () => {
                   </tr>
                   {orders.discount !== 0 && (
                     <tr>
-                      <td className="description">Discount</td>
+                      <td className="description">Descuento</td>
                       <td className="price">
                         {loading ? (
                           <Skeleton
@@ -212,7 +214,7 @@ const OrderDetails = () => {
         </div>
         <div className="second-row">
           <div className="second-row-left">
-            <h2>Shipping information</h2>
+            <h2>Información de envío</h2>
             <div className="shipping-info">
               <p>
                 {loading ? (
@@ -256,7 +258,7 @@ const OrderDetails = () => {
           </div>
           <div className="second-row-middle">
             <div className="payment-info-header">
-              <h2>Payment information</h2>
+              <h2>Información de pago</h2>
               <button
                 className="edit-btn"
                 onClick={() => {
@@ -276,7 +278,7 @@ const OrderDetails = () => {
                 )}
               </p>
               <p>
-                Payment status:{" "}
+                Estado del pago:{" "}
                 {loading ? (
                   <Skeleton width={100} />
                 ) : pmtToggle ? (
@@ -285,8 +287,8 @@ const OrderDetails = () => {
                     id="payment_status"
                     defaultValue={orders.payment_status}
                   >
-                    <option value="paid">Paid</option>
-                    <option value="pending">Pending</option>
+                    <option value="paid">Pagado</option>
+                    <option value="pending">Pendiente</option>
                   </select>
                 ) : (
                   // show payment status in title case
@@ -299,7 +301,7 @@ const OrderDetails = () => {
           </div>
           <div className="second-row-right">
             <div className="delivery-info-header">
-              <h2>Delivery information</h2>
+              <h2>Información de entrega</h2>
               <button
                 className="edit-btn"
                 onClick={() => {
@@ -312,7 +314,7 @@ const OrderDetails = () => {
             <div className="delivery-info">
               <p className="delivery-name">Delivery RedServi</p>
               <p>
-                Delivery status:{" "}
+                Estado del envío:{" "}
                 {loading ? (
                   <Skeleton width={100} />
                 ) : shipToggle ? (
@@ -321,11 +323,11 @@ const OrderDetails = () => {
                     id="order_status"
                     defaultValue={orders.order_status}
                   >
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="processing">Procesando</option>
+                    <option value="shipped">Enviado</option>
+                    <option value="delivered">Entregado</option>
+                    <option value="cancelled">Cancelado</option>
                   </select>
                 ) : (
                   // show order status in title case
@@ -344,7 +346,7 @@ const OrderDetails = () => {
             className="cancel-btn"
             onClick={() => (window.location.href = "/orders")}
           >
-            Cancel
+            Cancelar
           </button>
           <button
             className="save-btn"
@@ -353,7 +355,7 @@ const OrderDetails = () => {
             }}
             disabled={pmtToggle || shipToggle ? false : true}
           >
-            Save
+            Guardar
           </button>
         </div>
       </div>

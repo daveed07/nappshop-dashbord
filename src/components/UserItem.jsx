@@ -4,8 +4,6 @@ import Modal from "@components/Modal";
 import StyledUserItem from "@styles/styledUserItem";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Link } from "react-router-dom";
-import Eye from "./svg-components/Eye";
 import Trash from "./svg-components/Trash";
 
 const API = "https://nappshop.herokuapp.com/api/users/";
@@ -18,11 +16,11 @@ const UserItem = ({ user, loading }) => {
     axios
       .delete(`${API}${user.user_id}`)
       .then((response) => {
-        alert("User deleted successfully");
+        alert("Usuario eliminado con éxito");
         window.location.reload();
       })
       .catch((error) => {
-        alert("Error deleting user");
+        alert("Error al eliminar usuario");
         window.location.reload();
       });
   };
@@ -79,8 +77,8 @@ const UserItem = ({ user, loading }) => {
       </td>
       {showModal && (
         <Modal
-          title="Delete User"
-          message="Are you sure you want to delete this user?"
+          title="Eliminar usuario"
+          message="¿Estás seguro que deseas eliminar este usuario?"
           handleDelete={handleDelete}
           setShowModal={setShowModal}
         />

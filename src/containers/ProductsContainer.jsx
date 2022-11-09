@@ -14,6 +14,8 @@ import {
   sortProductsByBrand,
   sortProductsByCategory,
   sortProductsByType,
+  sortProductsBySKU,
+  sortProductsByBarcode,
   sortProductsByDate,
   sortProductsByStock,
   sortProductsByPrice,
@@ -24,6 +26,8 @@ const ProductsContainer = ({ products, loading, error }) => {
   const [sortBrand, setSortBrand] = useState("asc");
   const [sortCategory, setSortCategory] = useState("asc");
   const [sortType, setSortType] = useState("asc");
+  const [sortSKU, setSortSKU] = useState("asc");
+  const [sortBarcode, setSortBarcode] = useState("asc");
   const [sortDate, setSortDate] = useState("asc");
   const [sortStock, setSortStock] = useState("asc");
   const [sortPrice, setSortPrice] = useState("asc");
@@ -53,7 +57,9 @@ const ProductsContainer = ({ products, loading, error }) => {
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.type.toLowerCase().includes(searchQuery.toLowerCase())
+        product.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.barcode.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
     setSearchProducts(searchResults);
@@ -67,18 +73,20 @@ const ProductsContainer = ({ products, loading, error }) => {
           <Link to="/create-product">
             <button>
               <Add />
-              <span>Create Product</span>
+              <span>Crear producto</span>
             </button>
           </Link>
         </div>
         <div className="search">
-          <input type="text" id="search" placeholder="Search products" />
+          <input type="text" id="search" placeholder="Buscar productos"
+            onChange={handleSearchProduct}
+          />
           <button
             type="button"
             id="search-button"
             onClick={handleSearchProduct}
           >
-            Search
+            Buscar
           </button>
         </div>
       </div>
@@ -87,7 +95,7 @@ const ProductsContainer = ({ products, loading, error }) => {
           <tr>
             <th className="product-name">
               <div className="header-wrapper">
-                <p>Product</p>
+                <p>Nombre del producto</p>
                 <div className="sort">
                   {sortName === "asc" && (
                     <SortUp
@@ -110,7 +118,7 @@ const ProductsContainer = ({ products, loading, error }) => {
             </th>
             <th className="brand">
               <div className="header-wrapper">
-                <p>Brand</p>
+                <p>Marca</p>
                 <div className="sort">
                   {sortBrand === "asc" && (
                     <SortUp
@@ -133,7 +141,7 @@ const ProductsContainer = ({ products, loading, error }) => {
             </th>
             <th className="category">
               <div className="header-wrapper">
-                <p>Category</p>
+                <p>Categoría</p>
                 <div className="sort">
                   {sortCategory === "asc" && (
                     <SortUp
@@ -156,7 +164,7 @@ const ProductsContainer = ({ products, loading, error }) => {
             </th>
             <th className="type">
               <div className="header-wrapper">
-                <p>Type</p>
+                <p>Tipo</p>
                 <div className="sort">
                   {sortType === "asc" && (
                     <SortUp
@@ -177,9 +185,53 @@ const ProductsContainer = ({ products, loading, error }) => {
                 </div>
               </div>
             </th>
+            <th className="sku">
+              <div className="header-wrapper">
+                <p>SKU</p>
+              </div>
+              {sortSKU === "asc" && (
+                <SortUp
+                  onClick={() => {
+                    sortProductsBySKU(products, sortSKU);
+                    setSortSKU("desc");
+                  }}
+                />
+              )}
+              {sortSKU === "desc" && (
+                <SortDown
+                  onClick={() => {
+                    sortProductsBySKU(products, sortSKU);
+                    setSortSKU("asc");
+                  }}
+                />
+              )}
+            </th>
+            <th className="barcode">
+              <div className="header-wrapper">
+                <p>Código de barra</p>
+                <div className="sort">
+                  {sortBarcode === "asc" && (
+                    <SortUp
+                      onClick={() => {
+                        sortProductsByBarcode(products, sortBarcode);
+                        setSortBarcode("desc");
+                      }}
+                    />
+                  )}
+                  {sortBarcode === "desc" && (
+                    <SortDown
+                      onClick={() => {
+                        sortProductsByBarcode(products, sortBarcode);
+                        setSortBarcode("asc");
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </th>
             <th className="date">
               <div className="header-wrapper">
-                <p>Added Date</p>
+                <p>Fecha de creación</p>
                 <div className="sort">
                   {sortDate === "asc" && (
                     <SortUp
@@ -202,7 +254,7 @@ const ProductsContainer = ({ products, loading, error }) => {
             </th>
             <th className="price">
               <div className="header-wrapper">
-                <p>Price</p>
+                <p>Precio</p>
                 <div className="sort">
                   {sortPrice === "asc" && (
                     <SortUp
@@ -248,7 +300,7 @@ const ProductsContainer = ({ products, loading, error }) => {
             </th>
             <th>
               <div className="header-wrapper">
-                <p>Actions</p>
+                <p>Acciones</p>
               </div>
             </th>
           </tr>

@@ -33,7 +33,7 @@ const CreateProductContent = ({
     <div className="form-container">
       <form>
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Nombre</label>
           <input
             type="text"
             name="name"
@@ -43,7 +43,9 @@ const CreateProductContent = ({
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">
+            Descripción <span>(opcional)</span>
+          </label>
           <textarea
             name="description"
             id="description"
@@ -57,17 +59,21 @@ const CreateProductContent = ({
         </div>
         <div className="form-group-wrapper wrapper-1">
           <div className="form-group">
-            <label htmlFor="category">Category</label>
-            <select name="category" id="category"
-              onChange={(e) => setProduct({ ...product, category: e.target.value })}
+            <label htmlFor="category">Categoría</label>
+            <select
+              name="category"
+              id="category"
+              onChange={(e) =>
+                setProduct({ ...product, category: e.target.value })
+              }
             >
-              <option value={null}>Select Category</option>
+              <option value={null}>Seleccione una categoría</option>
               <option value="1">Accesorios</option>
               <option value="2">Productos</option>
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="type">Type</label>
+            <label htmlFor="type">Tipo</label>
             <input
               list="types"
               name="type"
@@ -82,7 +88,7 @@ const CreateProductContent = ({
             </datalist>
           </div>
           <div className="form-group">
-            <label htmlFor="brand">Brand</label>
+            <label htmlFor="brand">Marca</label>
             <select
               name="brand"
               id="brand"
@@ -90,7 +96,7 @@ const CreateProductContent = ({
                 setProduct({ ...product, brand: e.target.value })
               }
             >
-              <option value={null}>Select Brand</option>
+              <option value={null}>Seleccione una marca</option>
               <option value="1">iRobot</option>
               <option value="2">Oster</option>
               <option value="3">Cuisinart</option>
@@ -105,7 +111,7 @@ const CreateProductContent = ({
         </div>
         <div className="form-group-wrapper">
           <div className="form-group">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">Precio</label>
             <input
               type="number"
               name="price"
@@ -117,7 +123,9 @@ const CreateProductContent = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="compareAtPrice">Compare at price</label>
+            <label htmlFor="compareAtPrice">
+              Precio de comparación <span>(opcional)</span>
+            </label>
             <input
               type="number"
               name="compareAtPrice"
@@ -188,7 +196,7 @@ const CreateProductContent = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="barcode">Barcode</label>
+            <label htmlFor="barcode">Código de barra</label>
             <input
               type="text"
               name="barcode"
@@ -202,7 +210,9 @@ const CreateProductContent = ({
         </div>
         <div className="form-group-wrapper">
           <div className="form-group">
-            <label>Images</label>
+            <label>
+              Imágenes <span>(opcional)</span>
+            </label>
             <div className="image-input-container">
               <input
                 type="text"
@@ -240,7 +250,7 @@ const CreateProductContent = ({
                   window.location.href = "/products";
                 }}
               >
-                Cancel
+                Cancelar
               </button>
               <button
                 type="button"
@@ -249,7 +259,7 @@ const CreateProductContent = ({
                   submitProduct();
                 }}
               >
-                Save product
+                Guardar
               </button>
             </div>
           </div>

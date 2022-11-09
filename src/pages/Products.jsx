@@ -12,7 +12,7 @@ const Products = () => {
 
   return (
     <StyledProducts>
-      <h1 className="title">{loading ? <Skeleton /> : "Products"}</h1>
+      <h1 className="title">{loading ? <Skeleton /> : "Productos"}</h1>
       <ProductsContainer products={products} loading={loading} error={error} />
     </StyledProducts>
   );

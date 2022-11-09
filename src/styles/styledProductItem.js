@@ -19,10 +19,18 @@ const StyledProductItem = styled.tr`
   }
 
   .category {
-    width: 200px;
+    width: 160px;
   }
 
   .type {
+    width: 240px;
+  }
+
+  .sku {
+    width: 200px;
+  }
+
+  .barcode {
     width: 200px;
   }
 

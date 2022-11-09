@@ -55,7 +55,7 @@ const UsersContainer = ({ users, loading, error }) => {
         });
     });
 
-    alert("Users deleted successfully");
+    alert("Usuarios eliminados exitosamente");
     window.location.reload();
   };
 
@@ -79,29 +79,35 @@ const UsersContainer = ({ users, loading, error }) => {
       <div className="header">
         <div className="bulk-actions">
           <select name="bulk-actions" id="bulk-actions">
-            <option value="bulk-actions">Bulk Actions</option>
-            <option value="delete">Delete</option>
+            <option value="bulk-actions">Acciones en masa</option>
+            <option value="delete">Eliminar</option>
           </select>
           <button
             type="button"
             id="apply"
             onClick={() => {
-              if (document.querySelector("#bulk-actions").value === "delete") {
+              if (
+                document.querySelector("#bulk-actions").value === "eliminar"
+              ) {
                 handleDelete();
               }
             }}
           >
-            Apply
+            Aplicar
           </button>
         </div>
         <div className="search">
-          <input type="text" placeholder="Search" />
+          <input
+            type="text"
+            placeholder="Buscar usuarios"
+            onChange={handleSearchUser}
+          />
           <button
             onClick={() => {
               handleSearchUser();
             }}
           >
-            Search
+            Buscar
           </button>
         </div>
       </div>
@@ -123,7 +129,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="user-id">
               <div className="header-wrapper">
-                <p>User ID</p>
+                <p>ID de usuario</p>
                 <div className="sort">
                   {sortId === "asc" && (
                     <SortUp
@@ -146,7 +152,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="user-name">
               <div className="header-wrapper">
-                <p>Username</p>
+                <p>Nombre de usuario</p>
                 <div className="sort">
                   {sortUserName === "asc" && (
                     <SortUp
@@ -169,7 +175,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="user-full-name">
               <div className="header-wrapper">
-                <p>Full Name</p>
+                <p>Nombre completo</p>
                 <div className="sort">
                   {sortFullName === "asc" && (
                     <SortUp
@@ -192,7 +198,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="email">
               <div className="header-wrapper">
-                <p>Email</p>
+                <p>Correo electrónico</p>
                 <div className="sort">
                   {sortEmail === "asc" && (
                     <SortUp
@@ -215,7 +221,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="user-phone">
               <div className="header-wrapper">
-                <p>Phone</p>
+                <p>Teléfono</p>
                 <div className="sort">
                   {sortPhone === "asc" && (
                     <SortUp
@@ -238,7 +244,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="role">
               <div className="header-wrapper">
-                <p>Role</p>
+                <p>Rol</p>
                 <div className="sort">
                   {sortRole === "asc" && (
                     <SortUp
@@ -261,7 +267,7 @@ const UsersContainer = ({ users, loading, error }) => {
             </th>
             <th className="actions">
               <div className="header-wrapper">
-                <p>Actions</p>
+                <p>Acciones</p>
               </div>
             </th>
           </tr>
@@ -288,7 +294,7 @@ const UsersContainer = ({ users, loading, error }) => {
             <Skeleton width={100} />
           ) : (
             <p>
-              Showing {indexOfFirstUser + 1} to {indexOfLastUser} of{" "}
+              Mostrando {indexOfFirstUser + 1} a {indexOfLastUser} de{" "}
               {searchUsers.length}
             </p>
           )}

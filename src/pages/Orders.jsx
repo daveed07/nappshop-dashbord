@@ -12,7 +12,7 @@ const Orders = () => {
 
   return (
     <StyledOrders>
-      <h1 className="title">{loading ? <Skeleton /> : "Orders"}</h1>
+      <h1 className="title">{loading ? <Skeleton /> : "Ordenes"}</h1>
       <OrdersContainer orders={orders} loading={loading} error={error} />
     </StyledOrders>
   );

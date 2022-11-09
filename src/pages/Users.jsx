@@ -13,7 +13,7 @@ const Users = () => {
   return (
     <StyledUsers>
       <h1 className="title">
-        {loading ? <Skeleton width={120} /> : "Customers"}
+        {loading ? <Skeleton width={120} /> : "Usuarios"}
       </h1>
       <UsersContainer users={users} loading={loading} error={error} />
     </StyledUsers>

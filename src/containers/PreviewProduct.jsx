@@ -124,8 +124,8 @@ const PreviewProduct = ({ product, setProduct, loading }) => {
                     {loading && <Skeleton width={100} height={20} />}
                     {!loading
                       ? product.brand === "iRobot"
-                        ? "Free shipping"
-                        : "Starts at $4.50"
+                        ? "Envío gratis"
+                        : "Desde $4.50"
                       : null}
                   </p>
                 </div>
@@ -140,7 +140,7 @@ const PreviewProduct = ({ product, setProduct, loading }) => {
                 loading ? (
                   <Skeleton width={193} height={60} />
                 ) : (
-                  <Button disabled>Out of stock</Button>
+                  <Button disabled>Agotado</Button>
                 )
               ) : (
                 <>
@@ -148,14 +148,14 @@ const PreviewProduct = ({ product, setProduct, loading }) => {
                   {!loading && (
                     <Button secondary buy>
                       <CartFill width={24} height={24} />
-                      <p>Add to Cart</p>
+                      <p>Agregar al carrito</p>
                     </Button>
                   )}
                   {loading && <Skeleton width={193} height={60} />}
                   {!loading && (
                     <Button primary buy>
                       <BagFill width={24} height={24} />
-                      Buy now
+                      Comprar ahora
                     </Button>
                   )}
                 </>

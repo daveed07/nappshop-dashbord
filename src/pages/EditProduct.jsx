@@ -54,25 +54,22 @@ const { products: allProducts } = useGetProducts(`${API}`);
 
     if (
       newProduct.name &&
-      newProduct.description &&
       newProduct.type &&
       newProduct.brand_id &&
       newProduct.category_id &&
       newProduct.price &&
-      newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
-      newProduct.stock !== null &&
-      newProduct.images.length > 0
+      newProduct.stock !== null
     ) {
       try {
         const response = await axios.put(`${API}${id}`, newProduct);
-        alert("Product updated successfully");
+        alert("Producto actualizado con éxito");
       } catch (error) {
         console.log(error);
       }
     } else {
-      alert("Please fill all the fields");
+      alert("Por favor, rellena todos los campos obligatorios");
       // print fields that are empty in the console
       for (const [key, value] of Object.entries(newProduct)) {
         if (!value) {
@@ -84,7 +81,9 @@ const { products: allProducts } = useGetProducts(`${API}`);
 
   return (
     <StyledCreateProduct>
-      <h1 className="title">Create Product</h1>
+      <h1 className="title">
+        Editar producto
+      </h1>
       <div className="main-container">
         <CreateProductContent
           product={prod}

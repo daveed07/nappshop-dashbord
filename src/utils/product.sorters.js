@@ -106,6 +106,24 @@ const sortProductsByType = (products, sort) => {
   }
 };
 
+// sort products by SKU in ascending order or descending order
+const sortProductsBySKU = (products, sort) => {
+  if (sort === "asc") {
+    return products.sort((a, b) => (a.sku > b.sku ? 1 : -1));
+  } else if (sort === "desc") {
+    return products.sort((a, b) => (a.sku < b.sku ? 1 : -1));
+  }
+};
+
+// sort products by barcode in ascending order or descending order
+const sortProductsByBarcode = (products, sort) => {
+  if (sort === "asc") {
+    return products.sort((a, b) => (a.barcode > b.barcode ? 1 : -1));
+  } else if (sort === "desc") {
+    return products.sort((a, b) => (a.barcode < b.barcode ? 1 : -1));
+  }
+};
+
 // sort products by date in ascending order or descending order
 const sortProductsByDate = (products, sort) => {
   if (sort === "asc") {
@@ -139,12 +157,14 @@ const sortProductsByPrice = (products, sort) => {
   }
 };
 
-  export {
-    sortProductsByName,
-    sortProductsByBrand,
-    sortProductsByCategory,
-    sortProductsByType,
-    sortProductsByDate,
-    sortProductsByStock,
-    sortProductsByPrice,
-  };
+export {
+  sortProductsByName,
+  sortProductsByBrand,
+  sortProductsByCategory,
+  sortProductsByType,
+  sortProductsBySKU,
+  sortProductsByBarcode,
+  sortProductsByDate,
+  sortProductsByStock,
+  sortProductsByPrice,
+};

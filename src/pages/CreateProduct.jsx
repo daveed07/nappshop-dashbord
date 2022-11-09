@@ -49,12 +49,10 @@ const CreateProduct = () => {
     };
     if (
       newProduct.name &&
-      newProduct.description &&
       newProduct.type &&
       newProduct.brand_id &&
       newProduct.category_id &&
       newProduct.price &&
-      newProduct.compare_at_price &&
       newProduct.sku &&
       newProduct.barcode &&
       newProduct.stock !== null
@@ -76,16 +74,16 @@ const CreateProduct = () => {
           images: [],
         });
       } catch (error) {
-        alert("Error creating product");
+        alert("Error al crear el producto");
       }
     } else {
-      alert("Please fill out all required fields");
+      alert("Por favor, rellena todos los campos obligatorios");
     }
   };
 
   return (
     <StyledCreateProduct>
-      <h1 className="title">Create Product</h1>
+      <h1 className="title">Crear producto</h1>
       <div className="main-container">
         <CreateProductContent
           product={product}

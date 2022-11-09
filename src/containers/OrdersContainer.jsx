@@ -64,7 +64,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
         });
     });
 
-    alert("Orders deleted successfully");
+    alert("Ordenes eliminadas con éxito");
     window.location.reload();
   };
 
@@ -86,23 +86,30 @@ const OrdersContainer = ({ orders, loading, error }) => {
       <div className="header">
         <div className="bulk-actions">
           <select name="bulk-actions" id="bulk-actions">
-            <option value="bulk-actions">Bulk Actions</option>
-            <option value="delete">Delete</option>
+            <option value="bulk-actions">Acciones en masa</option>
+            <option value="delete">Eliminar</option>
           </select>
           <button
             type="button"
             id="apply"
             onClick={() => {
-              if (document.querySelector("#bulk-actions").value === "delete") {
+              if (
+                document.querySelector("#bulk-actions").value === "eliminar"
+              ) {
                 handleDelete();
               }
             }}
           >
-            Apply
+            Aplicar
           </button>
         </div>
         <div className="search">
-          <input type="text" id="search" placeholder="Search orders" />
+          <input
+            type="text"
+            id="search"
+            placeholder="Buscar ordenes"
+            onChange={handleSearchOrder}
+          />
           <button
             type="button"
             id="search-button"
@@ -110,7 +117,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
               handleSearchOrder();
             }}
           >
-            Search
+            Buscar
           </button>
         </div>
       </div>
@@ -132,7 +139,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="order-id">
               <div className="header-wrapper">
-                <p>Order ID</p>
+                <p>ID de orden</p>
                 <div className="sort">
                   {sortId === "asc" && (
                     <SortUp
@@ -155,7 +162,9 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="customer">
               <div className="header-wrapper">
-                <p>Customer</p>
+                <p>
+                  Cliente <span>(Nombre)</span>
+                </p>
                 <div className="sort">
                   {sortName === "asc" && (
                     <SortUp
@@ -178,7 +187,9 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="date">
               <div className="header-wrapper">
-                <p>Date</p>
+                <p>
+                  Fecha <span>(AAAA/MM/DD)</span>
+                </p>
                 <div className="sort">
                   {sortDate === "asc" && (
                     <SortUp
@@ -201,7 +212,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="payment-status">
               <div className="header-wrapper">
-                <p>Payment Status</p>
+                <p>Estado de pago</p>
                 <div className="sort">
                   {sortPaymentStatus === "asc" && (
                     <SortUp
@@ -247,7 +258,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="payment-method">
               <div className="header-wrapper">
-                <p>Payment Method</p>
+                <p>Método de pago</p>
                 <div className="sort">
                   {sortPaymentMethod === "asc" && (
                     <SortUp
@@ -270,7 +281,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="order-status">
               <div className="header-wrapper">
-                <p>Order Status</p>
+                <p>Estado de la orden</p>
                 <div className="sort">
                   {sortStatus === "asc" && (
                     <SortUp
@@ -293,7 +304,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             </th>
             <th className="actions">
               <div className="header-wrapper">
-                <p>Actions</p>
+                <p>Acciones</p>
               </div>
             </th>
           </tr>
@@ -320,7 +331,7 @@ const OrdersContainer = ({ orders, loading, error }) => {
             <Skeleton width={100} />
           ) : (
             <p>
-              Showing orders {indexOfFirstOrder + 1} to {indexOfLastOrder} of{" "}
+              Mostrando ordenes de {indexOfFirstOrder + 1} a {indexOfLastOrder} de{" "}
               {searchOrders.length}
             </p>
           )}
