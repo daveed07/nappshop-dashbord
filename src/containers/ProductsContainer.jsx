@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import ProductItem from "@components/ProductItem";
 import StyledProductsContainer from "@styles/styledProductsContainer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Modal from "@components/Modal";
 import SortUp from "@components/svg-components/SortUp";
 import SortDown from "@components/svg-components/SortDown";
 import RightArrow from "@components/svg-components/RightArrow";
@@ -21,6 +23,8 @@ import {
   sortProductsByPrice,
 } from "@utils/product.sorters";
 
+const API = "https://nappshop-backend.herokuapp.com/api/v1/products";
+
 const ProductsContainer = ({ products, loading, error }) => {
   const [sortName, setSortName] = useState("asc");
   const [sortBrand, setSortBrand] = useState("asc");
@@ -34,6 +38,10 @@ const ProductsContainer = ({ products, loading, error }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
   const [searchProducts, setSearchProducts] = useState(products);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalFunction, setModalFunction] = useState(() => {});
 
   useEffect(() => {
     setSearchProducts(products);
@@ -65,34 +73,111 @@ const ProductsContainer = ({ products, loading, error }) => {
     setSearchProducts(searchResults);
   };
 
+  const handleDeleteProducts = (products) => {
+    products.forEach((product) => {
+      axios
+        .delete(`${API}/${product.id}`)
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
+  const handleBulkAction = () => {
+    const selectedProducts = document.querySelectorAll(".check input:checked");
+
+    if (selectedProducts.length > 0) {
+      const bulkAction = document.querySelector("#bulk-actions").value;
+      switch (bulkAction) {
+        case "delete":
+          setShowModal(true);
+          setModalTitle("Eliminar productos");
+          setModalMessage(
+            `¿Estás seguro que deseas eliminar ${selectedProducts.length} productos?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleDeleteProducts(selectedProducts);
+              setShowModal(false);
+            };
+          });
+          break;
+        default:
+          break;
+      }
+    } else if (selectedProducts.length === 0) {
+      setShowModal(true);
+      setModalTitle("No hay productos seleccionados");
+      setModalMessage("Por favor selecciona al menos un producto.");
+      setModalFunction(() => {
+        return () => {
+          setShowModal(false);
+        };
+      });
+    }
+  };
+
   return (
     <StyledProductsContainer>
       {error && <p>{error.message}</p>}
       <div className="header">
-        <div className="create-product">
-          <Link to="/create-product">
-            <button>
-              <Add />
-              <span>Crear producto</span>
+        <div className="header-left">
+          <div className="create-product">
+            <Link to="/create-product">
+              <button>
+                <Add />
+                <span>Crear producto</span>
+              </button>
+            </Link>
+          </div>
+          <div className="bulk-actions">
+            <select name="bulk-actions" id="bulk-actions">
+              <option value="bulk-actions">Acciones en masa</option>
+              <option value="delete">Eliminar</option>
+            </select>
+            <button type="button" id="apply" onClick={() => handleBulkAction()}>
+              Aplicar
             </button>
-          </Link>
+          </div>
         </div>
-        <div className="search">
-          <input type="text" id="search" placeholder="Buscar productos"
-            onChange={handleSearchProduct}
-          />
-          <button
-            type="button"
-            id="search-button"
-            onClick={handleSearchProduct}
-          >
-            Buscar
-          </button>
+        <div className="header-right">
+          <div className="search">
+            <input
+              type="text"
+              id="search"
+              placeholder="Buscar productos"
+              onChange={handleSearchProduct}
+            />
+            <button
+              type="button"
+              id="search-button"
+              onClick={handleSearchProduct}
+            >
+              Buscar
+            </button>
+          </div>
         </div>
       </div>
       <table className="table">
         <thead>
           <tr>
+            <th className="check">
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  const checkboxes = document.querySelectorAll(
+                    ".table tbody input[type='checkbox']"
+                  );
+                  checkboxes.forEach((checkbox) => {
+                    checkbox.checked = e.target.checked;
+                  });
+                }}
+              />
+            </th>
             <th className="product-name">
               <div className="header-wrapper">
                 <p>Nombre del producto</p>
@@ -331,8 +416,8 @@ const ProductsContainer = ({ products, loading, error }) => {
             <Skeleton width={100} />
           ) : (
             <p>
-              Showing products {indexOfFirstProduct + 1} to {indexOfLastProduct}{" "}
-              of {products.length}
+              Mostrando productos del {indexOfFirstProduct + 1} al {indexOfLastProduct}{" "}
+              de {products.length}
             </p>
           )}
         </div>
@@ -357,6 +442,14 @@ const ProductsContainer = ({ products, loading, error }) => {
           </button>
         </div>
       </div>
+      {showModal && (
+        <Modal
+          title={modalTitle}
+          message={modalMessage}
+          modalFunction={modalFunction}
+          setShowModal={setShowModal}
+        />
+      )}
     </StyledProductsContainer>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import StyledModal from "@styles/styledModal";
 
-const Modal = ({ title, message, setShowModal, handleDelete }) => {
+const Modal = ({ title, message, setShowModal, modalFunction }) => {
   return (
     <StyledModal>
       <div className="modal">
@@ -22,8 +22,7 @@ const Modal = ({ title, message, setShowModal, handleDelete }) => {
             <button
               className="delete"
               onClick={() => {
-                handleDelete();
-                setShowModal(false);
+                modalFunction();
               }}
             >
               Eliminar

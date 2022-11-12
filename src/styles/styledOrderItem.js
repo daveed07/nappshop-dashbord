@@ -31,13 +31,13 @@ const StyledOrderItem = styled.tr`
     border-radius: 0.25rem;
   }
 
-  .payment-status .paid {
+  .payment-status .pagado {
     color: #28a745;
     background-color: #c3e6cb;
     border-color: #c3e6cb;
   }
 
-  .payment-status .pending {
+  .payment-status .pendiente {
     color: #ffc107;
     background-color: #ffeeba;
     border-color: #ffeeba;
@@ -61,31 +61,31 @@ const StyledOrderItem = styled.tr`
     border-radius: 0.25rem;
   }
 
-  .order-status .pending {
+  .order-status .pendiente {
     color: #ffc107;
     background-color: #ffeeba;
     border-color: #ffeeba;
   }
 
-  .order-status .processing {
+  .order-status .procesando {
     color: #0dcaf0;
     background-color: #bee5eb;
     border-color: #bee5eb;
   }
 
-  .order-status .shipped {
+  .order-status .enviado {
     color: #0d6efd;
     background-color: #cfe2ff;
     border-color: #cfe2ff;
   }
 
-  .order-status .delivered {
+  .order-status .entregado {
     color: #198754;
     background-color: #c3e6cb;
     border-color: #c3e6cb;
   }
 
-  .order-status .cancelled {
+  .order-status .cancelado {
     color: #dc3545;
     background-color: #f5c6cb;
     border-color: #f5c6cb;

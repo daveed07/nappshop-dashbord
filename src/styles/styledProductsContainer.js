@@ -15,13 +15,18 @@ const StyledProductsContainer = styled.div`
     margin-bottom: 24px;
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
   .create-product button {
     width: 148px;
-    height: 42px;
+    padding: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 12px;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     background: rgb(99 130 253);
@@ -30,6 +35,38 @@ const StyledProductsContainer = styled.div`
 
     &:hover {
       background: rgb(66, 90, 205);
+    }
+  }
+
+  .bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .bulk-actions select {
+    padding: 8px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 0.875rem;
+    color: #495057;
+    outline: none;
+  }
+
+  .bulk-actions button {
+    padding: 8px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background: #fff;
+    font-size: 0.875rem;
+    color: #495057;
+    outline: none;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 

@@ -36,6 +36,13 @@ const ProductItem = ({ product, loading }) => {
 
   return (
     <StyledProductItem>
+      <td className="check">
+        {loading ? (
+          <Skeleton width={20} height={20} />
+        ) : (
+          <input type="checkbox" id={product.id} />
+        )}
+      </td>
       <td className="product-name-image">
         <div className="image">
           {!loadImage ? (

@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import StyledOrdersContainer from "@styles/styledOrdersContainer";
 import OrderItem from "@components/OrderItem";
+import Modal from "@components/Modal";
 import LeftArrow from "@components/svg-components/LeftArrow";
 import RightArrow from "@components/svg-components/RightArrow";
 import SortUp from "@components/svg-components/SortUp";
@@ -31,6 +32,10 @@ const OrdersContainer = ({ orders, loading, error }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(8);
   const [searchOrders, setSearchOrders] = useState(orders);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalFunction, setModalFunction] = useState(() => {});
 
   useEffect(() => {
     setSearchOrders(orders);
@@ -50,24 +55,6 @@ const OrdersContainer = ({ orders, loading, error }) => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // create function called handleDelete that deletes all selected orders from the database
-  const handleDelete = () => {
-    const selectedOrders = document.querySelectorAll(".check input:checked");
-    selectedOrders.forEach((order) => {
-      axios
-        .delete(`${API}/${order.id}`)
-        .then((response) => {
-          return response;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-
-    alert("Ordenes eliminadas con éxito");
-    window.location.reload();
-  };
-
   const handleSearchOrder = () => {
     // search for orders that match the search query and update the searchOrders state
     const searchQuery = document.querySelector(".search input").value;
@@ -80,6 +67,259 @@ const OrdersContainer = ({ orders, loading, error }) => {
     setSearchOrders(searchResults);
   };
 
+  // create function called handleDelete that deletes all selected orders from the database
+  const handleDeleteOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .delete(`${API}/${order.id}`)
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
+  const handlePaidOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          payment_status: "pagado",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
+  const handleUnpaidOrders = (orders) => {
+    orders.forEach((order) => {
+      console.log(order);
+      axios
+        .put(`${API}/${order.id}`, {
+          payment_status: "pendiente",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
+  const handlePendingOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          order_status: "pendiente",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  const handleProcessingOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          order_status: "procesando",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  const handleShippedOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          order_status: "enviado",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  const handleDeliveredOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          order_status: "entregado",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  const handleCancelledOrders = (orders) => {
+    orders.forEach((order) => {
+      axios
+        .put(`${API}/${order.id}`, {
+          order_status: "cancelado",
+        })
+        .then((response) => {
+          window.location.reload();
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  const handleBulkAction = () => {
+    const selectedOrders = document.querySelectorAll(".check input:checked");
+
+    if (selectedOrders.length > 0) {
+      const bulkAction = document.querySelector("#bulk-actions").value;
+      switch (bulkAction) {
+        case "delete":
+          setShowModal(true);
+          setModalTitle("Eliminar ordenes");
+          setModalMessage(
+            `¿Estás seguro que quieres eliminar ${selectedOrders.length} ordenes?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleDeleteOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-paid":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como pagadas");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como pagadas?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handlePaidOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-unpaid":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como no pagadas");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como no pagadas?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleUnpaidOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-pending":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como pendientes");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como pendientes?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handlePendingOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-processing":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como procesando");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como procesando?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleProcessingOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-shipped":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como enviadas");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como enviadas?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleShippedOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-delivered":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como entregadas");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como entregadas?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleDeliveredOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        case "mark-as-cancelled":
+          setShowModal(true);
+          setModalTitle("Marcar ordenes como canceladas");
+          setModalMessage(
+            `¿Estás seguro que quieres marcar ${selectedOrders.length} ordenes como canceladas?`
+          );
+          setModalFunction(() => {
+            return () => {
+              handleCancelledOrders(selectedOrders);
+              setShowModal(false);
+            };
+          });
+          break;
+        default:
+          break;
+      }
+    } else if (selectedOrders.length === 0) {
+      setShowModal(true);
+      setModalTitle("No hay ordenes seleccionadas");
+      setModalMessage("Por favor selecciona al menos una orden");
+      setModalFunction(() => {
+        return () => {
+          setShowModal(false);
+        };
+      });
+    }
+  };
+
   return (
     <StyledOrdersContainer>
       {error && <p>{error.message}</p>}
@@ -88,18 +328,15 @@ const OrdersContainer = ({ orders, loading, error }) => {
           <select name="bulk-actions" id="bulk-actions">
             <option value="bulk-actions">Acciones en masa</option>
             <option value="delete">Eliminar</option>
+            <option value="mark-as-paid">Pagado</option>
+            <option value="mark-as-unpaid">No pagado</option>
+            <option value="mark-as-pending">Envío pendiente</option>
+            <option value="mark-as-processing">Envío en proceso</option>
+            <option value="mark-as-shipped">Enviado</option>
+            <option value="mark-as-delivered">Entregado</option>
+            <option value="mark-as-cancelled">Cancelado</option>
           </select>
-          <button
-            type="button"
-            id="apply"
-            onClick={() => {
-              if (
-                document.querySelector("#bulk-actions").value === "eliminar"
-              ) {
-                handleDelete();
-              }
-            }}
-          >
+          <button type="button" id="apply" onClick={() => handleBulkAction()}>
             Aplicar
           </button>
         </div>
@@ -331,8 +568,8 @@ const OrdersContainer = ({ orders, loading, error }) => {
             <Skeleton width={100} />
           ) : (
             <p>
-              Mostrando ordenes de {indexOfFirstOrder + 1} a {indexOfLastOrder} de{" "}
-              {searchOrders.length}
+              Mostrando ordenes de {indexOfFirstOrder + 1} a {indexOfLastOrder}{" "}
+              de {searchOrders.length}
             </p>
           )}
         </div>
@@ -353,6 +590,14 @@ const OrdersContainer = ({ orders, loading, error }) => {
           </button>
         </div>
       </div>
+      {showModal && (
+        <Modal
+          title={modalTitle}
+          message={modalMessage}
+          modalFunction={modalFunction}
+          setShowModal={setShowModal}
+        />
+      )}
     </StyledOrdersContainer>
   );
 };
